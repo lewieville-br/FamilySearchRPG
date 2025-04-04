@@ -20,8 +20,8 @@ class OverworldMap {
 
 window.OverworldMaps = {
     DemoRoom: {
-        lowerSrc: "/01-pizza-legends-intro/images/maps/DemoLower.png",
-        upperSrc: "/01-pizza-legends-intro/images/maps/DemoUpper.png",
+        lowerSrc: "01-pizza-legends-intro/images/maps/DemoLower.png",
+        upperSrc: "01-pizza-legends-intro/images/maps/DemoUpper.png",
         gameObjects: {
             hero: new Person({
                 isPlayerControlled: true,
@@ -31,14 +31,14 @@ window.OverworldMaps = {
             npc1:  new Person({
                 x: utils.widthGrid(7),
                 y: utils.widthGrid(9),
-                src: "/01-pizza-legends-intro/images/characters/people/npc1.png",
+                src: "01-pizza-legends-intro/images/characters/people/npc1.png",
             })
         }
     },
 
     Kitchen: {
-        lowerSrc: "/01-pizza-legends-intro/images/maps/KitchenLower.png",
-        upperSrc: "/01-pizza-legends-intro/images/maps/KitchenUpper.png",
+        lowerSrc: "01-pizza-legends-intro/images/maps/KitchenLower.png",
+        upperSrc: "01-pizza-legends-intro/images/maps/KitchenUpper.png",
         gameObjects: {
             hero: new Person({
                 isPlayerControlled: true,
@@ -49,12 +49,12 @@ window.OverworldMaps = {
             npcA: new Person({
                 x: utils.widthGrid(10),
                 y: utils.widthGrid(5),
-                src: "/01-pizza-legends-intro/images/characters/people/npc5.png",
+                src: "01-pizza-legends-intro/images/characters/people/npc5.png",
             }),
             npcB: new Person({
                 x: utils.widthGrid(3),
                 y: utils.widthGrid(9),
-                src: "/01-pizza-legends-intro/images/characters/people/npc4.png",
+                src: "01-pizza-legends-intro/images/characters/people/npc4.png",
             }),
         }
     },
