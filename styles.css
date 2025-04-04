@@ -1,0 +1,813 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(to bottom, #0b0b2b, #1b2735 70%, #090a0f);
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: 500%;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+  .stars {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    background: white;
+    box-shadow: 2vw 5vh 2px white, 10vw 8vh 2px white, 15vw 15vh 1px white,
+      22vw 22vh 1px white, 28vw 12vh 2px white, 32vw 32vh 1px white,
+      38vw 18vh 2px white, 42vw 35vh 1px white, 48vw 25vh 2px white,
+      53vw 42vh 1px white, 58vw 15vh 2px white, 63vw 38vh 1px white,
+      68vw 28vh 2px white, 73vw 45vh 1px white, 78vw 32vh 2px white,
+      83vw 48vh 1px white, 88vw 20vh 2px white, 93vw 52vh 1px white,
+      98vw 35vh 2px white, 5vw 60vh 1px white, 12vw 65vh 2px white,
+      18vw 72vh 1px white, 25vw 78vh 2px white, 30vw 85vh 1px white,
+      35vw 68vh 2px white, 40vw 82vh 1px white, 45vw 92vh 2px white,
+      50vw 75vh 1px white, 55vw 88vh 2px white, 60vw 95vh 1px white,
+      65vw 72vh 2px white, 70vw 85vh 1px white, 75vw 78vh 2px white,
+      80vw 92vh 1px white, 85vw 82vh 2px white, 90vw 88vh 1px white,
+      95vw 75vh 2px white;
+    animation: twinkle 8s infinite linear;
+  }
+  
+  .shooting-star {
+    position: absolute;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, white, transparent);
+    animation: shoot 3s infinite ease-in;
+  }
+  
+  .shooting-star:nth-child(1) {
+    top: 20%;
+    left: -100px;
+    animation-delay: 0s;
+  }
+  
+  .shooting-star:nth-child(2) {
+    top: 35%;
+    left: -100px;
+    animation-delay: 1s;
+  }
+  
+  .shooting-star:nth-child(3) {
+    top: 50%;
+    left: -100px;
+    animation-delay: 2s;
+  }
+  
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+  
+  @keyframes shoot {
+    0% {
+      transform: translateX(0) translateY(0) rotate(25deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(120vw) translateY(50vh) rotate(25deg);
+      opacity: 0;
+    }
+  }
+  
+  /* Additional twinkling stars with different animation timing */
+  .stars::after {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background: white;
+    box-shadow: 8vw 12vh 2px white, 16vw 18vh 1px white, 24vw 25vh 2px white,
+      33vw 15vh 1px white, 41vw 28vh 2px white, 49vw 35vh 1px white,
+      57vw 22vh 2px white, 65vw 42vh 1px white, 73vw 28vh 2px white,
+      81vw 48vh 1px white, 89vw 32vh 2px white, 97vw 45vh 1px white,
+      3vw 68vh 2px white, 11vw 75vh 1px white, 19vw 82vh 2px white,
+      27vw 88vh 1px white, 35vw 72vh 2px white, 43vw 85vh 1px white,
+      51vw 92vh 2px white, 59vw 78vh 1px white;
+    animation: twinkle 6s infinite linear reverse;
+  }
+  
+
+.game-container {
+    display: none;
+    position: relative;
+    width: 352px;
+    height: 198px;
+    margin: 0 auto;
+    margin-top: 20px;
+    outline: 1px solid white;
+    transform: scale(3) translateY(50%);
+}
+
+.game-container canvas {
+    image-rendering: pixelated;
+}
+
+#game-button {
+    position: relative;
+    margin-top: 20%;
+    display: flex;
+    scale: 5;
+    margin-inline: auto;
+}
+
+#ghost {
+    position: absolute;
+    top: 50%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    scale: 0.8;
+  }
+  
+  #red {
+    animation: upNDown infinite 0.5s;
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    grid-template-rows: repeat(14, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    grid-template-areas:
+      "a1  a2  a3  a4  a5  top0  top0  top0  top0  a10 a11 a12 a13 a14"
+      "b1  b2  b3  top1 top1 top1 top1 top1 top1 top1 top1 b12 b13 b14"
+      "c1 c2 top2 top2 top2 top2 top2 top2 top2 top2 top2 top2 c13 c14"
+      "d1 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 d14"
+      "e1 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 e14"
+      "f1 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 top3 f14"
+      "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+      "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+      "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+      "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+      "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+      "top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4 top4"
+      "st0 st0 an4 st1 an7 st2 an10 an10 st3 an13 st4 an16 st5 st5"
+      "an1 an2 an3 an5 an6 an8 an9 an9 an11 an12 an14 an15 an17 an18";
+  }
+  
+  @keyframes upNDown {
+    0%,
+    49% {
+      transform: translateY(0px);
+    }
+    50%,
+    100% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  #top0,
+  #top1,
+  #top2,
+  #top3,
+  #top4,
+  #st0,
+  #st1,
+  #st2,
+  #st3,
+  #st4,
+  #st5 {
+    background-color: red;
+  }
+  
+  #top0 {
+    grid-area: top0;
+  }
+  
+  #top1 {
+    grid-area: top1;
+  }
+  
+  #top2 {
+    grid-area: top2;
+  }
+  
+  #top3 {
+    grid-area: top3;
+  }
+  
+  #top4 {
+    grid-area: top4;
+  }
+  
+  #st0 {
+    grid-area: st0;
+  }
+  
+  #st1 {
+    grid-area: st1;
+  }
+  
+  #st2 {
+    grid-area: st2;
+  }
+  
+  #st3 {
+    grid-area: st3;
+  }
+  
+  #st4 {
+    grid-area: st4;
+  }
+  
+  #st5 {
+    grid-area: st5;
+  }
+  
+  #an1 {
+    grid-area: an1;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an18 {
+    grid-area: an18;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an2 {
+    grid-area: an2;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an17 {
+    grid-area: an17;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an3 {
+    grid-area: an3;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an16 {
+    grid-area: an16;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an4 {
+    grid-area: an4;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an15 {
+    grid-area: an15;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an6 {
+    grid-area: an6;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an12 {
+    grid-area: an12;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an7 {
+    grid-area: an7;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an13 {
+    grid-area: an13;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an9 {
+    grid-area: an9;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an10 {
+    grid-area: an10;
+    animation: flicker1 infinite 0.5s;
+  }
+  
+  #an8 {
+    grid-area: an8;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  #an11 {
+    grid-area: an11;
+    animation: flicker0 infinite 0.5s;
+  }
+  
+  @keyframes flicker0 {
+    0%,
+    49% {
+      background-color: red;
+    }
+    50%,
+    100% {
+      background-color: transparent;
+    }
+  }
+  
+  @keyframes flicker1 {
+    0%,
+    49% {
+      background-color: transparent;
+    }
+    50%,
+    100% {
+      background-color: red;
+    }
+  }
+  
+  #eye {
+    width: 40px;
+    height: 50px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+  }
+  
+  #eye::before {
+    content: "";
+    background-color: white;
+    width: 20px;
+    height: 50px;
+    transform: translateX(10px);
+    display: block;
+    position: absolute;
+  }
+  
+  #eye::after {
+    content: "";
+    background-color: white;
+    width: 40px;
+    height: 30px;
+    transform: translateY(10px);
+    display: block;
+    position: absolute;
+  }
+  
+  #eye1 {
+    width: 40px;
+    height: 50px;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
+  
+  #eye1::before {
+    content: "";
+    background-color: white;
+    width: 20px;
+    height: 50px;
+    transform: translateX(10px);
+    display: block;
+    position: absolute;
+  }
+  
+  #eye1::after {
+    content: "";
+    background-color: white;
+    width: 40px;
+    height: 30px;
+    transform: translateY(10px);
+    display: block;
+    position: absolute;
+  }
+  
+  #pupil {
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    z-index: 1;
+    animation: eyesMovement infinite 3s;
+  }
+  
+  #pupil1 {
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    z-index: 1;
+    animation: eyesMovement infinite 3s;
+  }
+  
+  @keyframes eyesMovement {
+    0%,
+    49% {
+      transform: translateX(0px);
+    }
+    50%,
+    99% {
+      transform: translateX(10px);
+    }
+    100% {
+      transform: translateX(0px);
+    }
+  }
+  
+  #shadow {
+    background-color: black;
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    border-radius: 50%;
+    transform: rotateX(80deg);
+    filter: blur(20px);
+    top: 80%;
+    animation: shadowMovement infinite 0.5s;
+  }
+  
+  @keyframes shadowMovement {
+    0%,
+    49% {
+      opacity: 0.5;
+    }
+    50%,
+    100% {
+      opacity: 0.2;
+    }
+  }
+    /* loader */
+.loader {
+    position: relative;
+    scale: 3.5;
+    margin-top: 20%;
+    display: flex;
+    margin-inline: auto;
+    width: fit-content;
+    font-size: 17px;
+    font-family: monospace;
+    line-height: 1.4;
+    font-weight: bold;
+    padding: 30px 2px 50px;
+    background: linear-gradient(#000 0 0) 0 0/100% 100% content-box padding-box
+      no-repeat;
+    overflow: hidden;
+    animation: l10-0 2s infinite cubic-bezier(1, 175, 0.5, 175);
+  }
+  .loader::before {
+    content: "Loading";
+    display: inline-block;
+    animation: l10-2 2s infinite;
+  }
+  .loader::after {
+    content: "";
+    position: absolute;
+    width: 34px;
+    height: 28px;
+    top: 110%;
+    left: calc(50% - 16px);
+    background: linear-gradient(
+          90deg,
+          #0000 12px,
+          #f92033 0 22px,
+          #0000 0 26px,
+          #fdc98d 0 32px,
+          #0000
+        )
+        bottom 26px left 50%,
+      linear-gradient(90deg, #0000 10px, #f92033 0 28px, #fdc98d 0 32px, #0000 0)
+        bottom 24px left 50%,
+      linear-gradient(
+          90deg,
+          #0000 10px,
+          #643700 0 16px,
+          #fdc98d 0 20px,
+          #000 0 22px,
+          #fdc98d 0 24px,
+          #000 0 26px,
+          #f92033 0 32px,
+          #0000 0
+        )
+        bottom 22px left 50%,
+      linear-gradient(
+          90deg,
+          #0000 8px,
+          #643700 0 10px,
+          #fdc98d 0 12px,
+          #643700 0 14px,
+          #fdc98d 0 20px,
+          #000 0 22px,
+          #fdc98d 0 28px,
+          #f92033 0 32px,
+          #0000 0
+        )
+        bottom 20px left 50%,
+      linear-gradient(
+          90deg,
+          #0000 8px,
+          #643700 0 10px,
+          #fdc98d 0 12px,
+          #643700 0 16px,
+          #fdc98d 0 22px,
+          #000 0 24px,
+          #fdc98d 0 30px,
+          #f92033 0 32px,
+          #0000 0
+        )
+        bottom 18px left 50%,
+      linear-gradient(
+          90deg,
+          #0000 8px,
+          #643700 0 12px,
+          #fdc98d 0 20px,
+          #000 0 28px,
+          #f92033 0 30px,
+          #0000 0
+        )
+        bottom 16px left 50%,
+      linear-gradient(90deg, #0000 12px, #fdc98d 0 26px, #f92033 0 30px, #0000 0)
+        bottom 14px left 50%,
+      linear-gradient(
+          90deg,
+          #fdc98d 6px,
+          #f92033 0 14px,
+          #222a87 0 16px,
+          #f92033 0 22px,
+          #222a87 0 24px,
+          #f92033 0 28px,
+          #0000 0 32px,
+          #643700 0
+        )
+        bottom 12px left 50%,
+      linear-gradient(
+          90deg,
+          #fdc98d 6px,
+          #f92033 0 16px,
+          #222a87 0 18px,
+          #f92033 0 24px,
+          #f92033 0 26px,
+          #0000 0 30px,
+          #643700 0
+        )
+        bottom 10px left 50%,
+      linear-gradient(
+          90deg,
+          #0000 10px,
+          #f92033 0 16px,
+          #222a87 0 24px,
+          #feee49 0 26px,
+          #222a87 0 30px,
+          #643700 0
+        )
+        bottom 8px left 50%,
+      linear-gradient(
+          90deg,
+          #0000 12px,
+          #222a87 0 18px,
+          #feee49 0 20px,
+          #222a87 0 30px,
+          #643700 0
+        )
+        bottom 6px left 50%,
+      linear-gradient(90deg, #0000 8px, #643700 0 12px, #222a87 0 30px, #643700 0)
+        bottom 4px left 50%,
+      linear-gradient(90deg, #0000 6px, #643700 0 14px, #222a87 0 26px, #0000 0)
+        bottom 2px left 50%,
+      linear-gradient(90deg, #0000 6px, #643700 0 10px, #0000 0) bottom 0px left
+        50%;
+    background-size: 34px 2px;
+    background-repeat: no-repeat;
+    animation: inherit;
+    animation-name: l10-1;
+  }
+  @keyframes l10-0 {
+    0%,
+    30% {
+      background-position: 0 0px;
+    }
+    50%,
+    100% {
+      background-position: 0 -0.1px;
+    }
+  }
+  @keyframes l10-1 {
+    50%,
+    100% {
+      top: 109.5%;
+    }
+  }
+  @keyframes l10-2 {
+    0%,
+    30% {
+      transform: translateY(0);
+    }
+    80%,
+    100% {
+      transform: translateY(-260%);
+    }
+  }
+  
+  /* From Uiverse.io by augustin_4687 */ 
+.button {
+    --stone-50: #fafaf9;
+    --stone-800: #292524;
+    --yellow-300: #fde047;
+    --yellow-400: #facc15;
+    --yellow-500: #eab308;
+    --black-25: rgba(0, 0, 0, 0.25);
+  
+    position: relative;
+    display: block;
+    width: 4rem;
+    height: 4rem;
+    cursor: pointer;
+  
+    & > button {
+      cursor: pointer;
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      appearance: none;
+      border: 2px solid var(--stone-800);
+      border-radius: 0.25rem;
+      background-color: var(--yellow-400);
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+  
+      &:hover {
+        background-color: var(--yellow-300);
+      }
+  
+      &:checked {
+        background-color: var(--stone-800);
+        border-color: var(--stone-800);
+  
+        &:hover {
+          background-color: #44403c;
+        }
+      }
+  
+      &:active {
+        outline-color: var(--stone-800);
+      }
+  
+      &:focus-visible {
+        outline-color: var(--stone-800);
+        outline-style: dashed;
+      }
+    }
+  
+    & > span:nth-child(2) {
+      position: absolute;
+      inset: 3px;
+      pointer-events: none;
+      background-color: var(--yellow-400);
+      border-bottom: 2px solid var(--black-25);
+      transition: transform 75ms;
+  
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+            rgb(255 255 255 / 80%) 20%,
+            transparent 20%
+          ),
+          radial-gradient(rgb(255 255 255 / 100%) 20%, transparent 20%);
+        background-position:
+          0 0,
+          4px 4px;
+        background-size: 8px 8px;
+        mix-blend-mode: hard-light;
+        opacity: 0.5;
+        animation: dots 0.5s infinite linear;
+      }
+    }
+  
+    & > span:nth-child(3) {
+      position: absolute;
+      pointer-events: none;
+      inset: 0;
+  
+      &::before {
+        content: "";
+        width: 0.375rem;
+        height: 0.375rem;
+        position: absolute;
+        top: 0.25rem;
+        left: 0.25rem;
+        background-color: var(--stone-800);
+        border-radius: 0.125rem;
+        box-shadow:
+          3.125em 0 var(--stone-800),
+          0 3.125em var(--stone-800),
+          3.125em 3.125em var(--stone-800);
+      }
+    }
+  
+    & > span:nth-child(4) {
+      position: absolute;
+      pointer-events: none;
+      inset: 0;
+      filter: drop-shadow(0.25em 0.25em 0 rgba(0, 0, 0, 0.2));
+      transition: all 75ms;
+  
+      &::after {
+        content: "";
+        width: 0.25rem;
+        height: 0.25rem;
+        position: absolute;
+        top: 0.875rem;
+        left: 1rem;
+        border-radius: 0.0625px;
+        background-color: var(--stone-800);
+        box-shadow:
+          0.75em 2em var(--stone-800),
+          1em 2em var(--stone-800),
+          0.75em 1.75em var(--stone-800),
+          1em 1.75em var(--stone-800),
+          0.75em 1.25em var(--stone-800),
+          1em 1.25em var(--stone-800),
+          0.75em 1em var(--stone-800),
+          1em 1em var(--stone-800),
+          1em 0.75em var(--stone-800),
+          1.5em 0.75em var(--stone-800),
+          1.25em 0.75em var(--stone-800),
+          1.25em -0.25em var(--stone-800),
+          1.5em 0em var(--stone-800),
+          1.25em 0.5em var(--stone-800),
+          1.5em 0.5em var(--stone-800),
+          1.25em 0.25em var(--stone-800),
+          1.5em 0.25em var(--stone-800),
+          1.25em 0 var(--stone-800),
+          1em -0.25em var(--stone-800),
+          0.75em -0.25em var(--stone-800),
+          0.5em -0.25em var(--stone-800),
+          0.25em -0.25em var(--stone-800),
+          0.25em 0 var(--stone-800),
+          0 0.25em var(--stone-800),
+          0 0.5em var(--stone-800),
+          0.25em 0.25em var(--stone-800),
+          0.25em 0.5em var(--stone-800);
+      }
+    }
+  
+    & > span:nth-child(5) {
+      position: absolute;
+      background-color: var(--yellow-400);
+      border: 2px solid var(--stone-800);
+      border-radius: 0.75rem;
+      pointer-events: none;
+      z-index: -1;
+      inset: 0.5rem 1.5rem;
+      box-shadow:
+        7px 0 0 0 var(--stone-800),
+        inset 0 2px 0 0 var(--yellow-300),
+        inset 0 -2px 0 0 var(--yellow-500);
+      transition: all 0ms cubic-bezier(0, 0.5, 0.4, 1);
+    }
+  
+    & button:active ~ span:nth-child(5) {
+      transform: translateY(-200%);
+      transition-duration: 200ms;
+      opacity: 0;
+    }
+  
+    & button:hover ~ span:nth-child(4) {
+      filter: drop-shadow(0.125em 0.125em 0 rgba(0, 0, 0, 0.2));
+    }
+  }
+  
+  @keyframes dots {
+    0% {
+      background-position:
+        0 0,
+        4px 4px;
+    }
+    100% {
+      background-position:
+        8px 0,
+        12px 4px;
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .button {
+      & button:active,
+      & button:focus-visible {
+        outline-color: var(--yellow-400);
+      }
+    }
+  }
+  
